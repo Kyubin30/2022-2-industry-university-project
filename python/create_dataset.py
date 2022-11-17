@@ -8,7 +8,10 @@ import csv
 push-up: 팔굽혀펴기-편 동작, 
 push-down: 팔굽혀펴기-다운 동작
 '''
-actions = ['push-up', 'push-down']
+actions = ['pushUp', 'pushDown']
+
+color_pose1 = (245,117,66)
+color_pose2 = (245,66,230)
 
 #Mediapipe pose model
 mp_pose = mp.solutions.pose
@@ -34,3 +37,17 @@ for action in actions:
     for img_file in file_list:
         #각 이미지 별로 포즈 학습
         img = cv2.imread('./' + img_path + '/' + img_file, cv2.IMREAD_COLOR)
+
+        cv2.imshow('img', img)
+        
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+        result = pose.process(img)
+
+        mp_drawing.draw_landmarks(
+                    img, result.pose_landmarks, pose.POSE_CONNECTIONS, 
+                    mp_drawing.DrawingSpec(color=color_pose1, thickness=2, circle_radius=4),
+                    mp_drawing.DrawingSpec(color=color_pose2, thickness=2, circle_radius=2)
+                )
+
+        
