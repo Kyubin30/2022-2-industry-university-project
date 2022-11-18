@@ -29,7 +29,7 @@ pose = mp_pose.Pose(
 dataset = open("dataset.csv", "w")
 
 #actions의 크기만큼 반복
-for action in actions:
+for idx, action in enumerate(actions):
     #actions의 각 명칭별로 있는 폴더 안의 이미지 사용
     img_path = "python/data/" + action + '/'
     file_list = os.listdir(img_path)
@@ -46,7 +46,15 @@ for action in actions:
                 )
 
         if result.pose_landmarks is not None:
-            print(result.pose_landmarks)
 
-        cv2.imshow('img', img)
-        cv2.waitKey(10000)
+            cv2.imshow('img', img)
+            cv2.waitKey(1000)
+
+            try:
+                pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
+                pose_row.append(idx)
+                print(pose_row)
+                csv_writer = csv.writer(dataset, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
+                csv_writer.writerow(pose_row)
+            except:
+                pass
