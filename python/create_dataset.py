@@ -17,7 +17,9 @@ color_pose2 = (245,66,230)
 mp_pose = mp.solutions.pose
 mp_drawing = mp.solutions.drawing_utils
 pose = mp_pose.Pose(
-    min_detection_confidence=0.5,
+    static_image_mode=True,
+    model_complexity=1,
+    min_detection_confidence=0.8,
     min_tracking_confidence=0.5
 )
 
@@ -26,7 +28,7 @@ pose = mp_pose.Pose(
 #knn알고리즘으로 각 구분 동작 학습
 
 #csv는 반복 전 열어 각 반복마다 학습한 값과 라벨을 각 row에 저장
-dataset = open("dataset.csv", "w")
+dataset = open("dataset.csv", "w", newline='')
 
 #actions의 크기만큼 반복
 for idx, action in enumerate(actions):
@@ -48,7 +50,7 @@ for idx, action in enumerate(actions):
         if result.pose_landmarks is not None:
 
             cv2.imshow('img', img)
-            cv2.waitKey(1000)
+            cv2.waitKey(500)
 
             try:
                 pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
