@@ -28,6 +28,8 @@ with open("./poseModel.pickle","rb") as fr:
 
 cap = cv2.VideoCapture(0)
 
+count = 0
+
 while cap.isOpened():
     ret, img = cap.read()
     if not ret:
@@ -47,8 +49,15 @@ while cap.isOpened():
     if result.pose_landmarks is not None:
         pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
         pose_arr = [pose_row]
+
+        #예측 동작 인덱스, 예측 확률 값
         action = model.predict(pose_arr)
-        cv2.putText(img, text=actions[action[0]], org=(int(img.shape[1] / 2), 100), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+        predic = model.predict_proba(pose_arr)[:6][0]
+
+        cv2.putText(img, text=actions[action[0]], org=(50,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+        cv2.putText(img, text=("%.2f" % predic[action[0]]), org=(400,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+        cv2.putText(img, text=("%d" % count), org=(600,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
     cv2.imshow('pose', img)
