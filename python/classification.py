@@ -26,6 +26,7 @@ pose = mp_pose.Pose(
 with open("./poseModel.pickle","rb") as fr:
     model = pickle.load(fr)
 
+#웹캠으로 동작, 추후 flask에서 기능 구현 시 수정 필요
 cap = cv2.VideoCapture(0)
 
 count = 0

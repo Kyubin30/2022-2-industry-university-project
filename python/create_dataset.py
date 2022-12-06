@@ -41,6 +41,7 @@ for idx, action in enumerate(actions):
 
         result = pose.process(img)
 
+        #학습 데이터에서 프즈를 제대로 인식하는지 cv2에 랜드마크 추가해 확인
         mp_drawing.draw_landmarks(
                     img, result.pose_landmarks, mp_pose.POSE_CONNECTIONS, 
                     mp_drawing.DrawingSpec(color=color_pose1, thickness=2, circle_radius=4),
@@ -52,6 +53,7 @@ for idx, action in enumerate(actions):
             cv2.imshow('img', img)
             cv2.waitKey(500)
 
+            #랜드마크가 정상 인식 되었을 경우 csv파일에 저장
             try:
                 pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
                 pose_row.append(idx)
