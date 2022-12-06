@@ -37,13 +37,21 @@ while cap.isOpened():
     img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
     result = pose.process(img)
+    
+    mp_drawing.draw_landmarks(
+                    img, result.pose_landmarks, mp_pose.POSE_CONNECTIONS, 
+                    mp_drawing.DrawingSpec(color=color_pose1, thickness=2, circle_radius=4),
+                    mp_drawing.DrawingSpec(color=color_pose2, thickness=2, circle_radius=2)
+                )
 
     if result.pose_landmarks is not None:
         pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
         pose_arr = [pose_row]
         action = model.predict(pose_arr)
-        img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
         cv2.putText(img, text=actions[action[0]], org=(int(img.shape[1] / 2), 100), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
+    cv2.imshow('pose', img)
 
     if cv2.waitKey(1) == ord('q'):
         break
