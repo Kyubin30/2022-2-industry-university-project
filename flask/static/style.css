@@ -25,4 +25,14 @@ a{
 a svg {
     display: inline-block;
     vertical-align: middle;
-  }
+}
+
+form{
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    all: unset;
+    align-items: center;
+}
