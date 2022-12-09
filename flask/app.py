@@ -10,11 +10,6 @@ app = Flask(__name__)
 
 actions = ['pushUp', 'pushDown']
 
-pre = ""
-curr = ""
-
-count = 0
-
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)
 
@@ -38,13 +33,14 @@ exerciseList = {
     "crunch" : "크런치"
 }
 
-def counting():
-    if pre == "pushUp" and curr == "pushDown":
-        count += 1
-
-
 #프레임 생성 
 def gen_frames():
+
+    pre = ""
+    curr = ""
+
+    count = 0
+
     while True:
         success, frame = camera.read()
 
@@ -70,7 +66,8 @@ def gen_frames():
 
             curr = actions[action[0]]
 
-            counting()
+            if pre == "pushUp" and curr == "pushDown":
+                count += 1
 
             pre = curr
 
