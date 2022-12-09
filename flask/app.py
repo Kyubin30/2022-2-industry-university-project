@@ -11,8 +11,9 @@ exerciseList = {
 #초기 리스트 페이지
 @app.route("/")
 def homepage():
-   data = list(exerciseList.keys())
-   return render_template("index.html", data = data) 
+    key = list(exerciseList.keys())
+    return render_template("index.html", key = key, exerciseList = exerciseList) 
+ 
 
 #get을 이용하여 리스트 페이지의 운동 이름을 가져옴
 @app.route("/detail", methods=['GET']) 		
