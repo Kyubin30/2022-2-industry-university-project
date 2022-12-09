@@ -10,6 +10,8 @@ app = Flask(__name__)
 
 actions = ['pushUp', 'pushDown']
 
+count = 0
+
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)
 
@@ -38,8 +40,6 @@ def gen_frames():
 
     pre = ""
     curr = ""
-
-    count = 0
 
     while True:
         success, frame = camera.read()
