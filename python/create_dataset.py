@@ -7,7 +7,8 @@ import csv
 '''
 pushUp: 팔굽혀펴기-편 동작, 
 pushDown: 팔굽혀펴기-다운 동작
-
+crunchDown: 크런치 누운 동작
+crunchUp: 크런치 올라온 동작
 '''
 actions = ['pushUp', 'pushDown', 'crunchDown', 'crunchUp']
 

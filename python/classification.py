@@ -3,12 +3,22 @@ import mediapipe as mp
 import numpy as np
 import pickle
 from sklearn.neighbors import KNeighborsClassifier
+import sys
 
 '''
 pushUp: 팔굽혀펴기-편 동작, 
 pushDown: 팔굽혀펴기-다운 동작
+crunchDown: 크런치 누운 동작
+crunchUp: 크런치 올라온 동작
 '''
 actions = ['pushUp', 'pushDown', 'crunchDown', 'crunchUp']
+
+pre = ""
+curr = ""
+
+wantExercise = sys.argv[1]
+
+print(sys.argv[1])
 
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)
@@ -55,9 +65,18 @@ while cap.isOpened():
         action = model.predict(pose_arr)
         predic = model.predict_proba(pose_arr)[:6][0]
 
-        cv2.putText(img, text=actions[action[0]], org=(50,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
-        cv2.putText(img, text=("%.2f" % predic[action[0]]), org=(400,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
-        cv2.putText(img, text=("%d" % count), org=(600,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+        curr = actions[action[0]]
+
+        if wantExercise == "pushup" and pre == "pushUp" and curr == "pushDown":
+            count += 1
+        elif wantExercise == "crunch" and pre == "crunchDown" and curr == "crunchUp":
+            count += 1
+        
+        pre = curr
+
+        cv2.putText(img, text=actions[action[0]], org=(25,25), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
+        cv2.putText(img, text=("%.2f" % predic[action[0]]), org=(25,75), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
+        cv2.putText(img, text=("%d" % count), org=(25,125), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
 
 
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
