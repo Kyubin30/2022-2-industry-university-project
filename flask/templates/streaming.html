@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="kor">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{ url_for('static', filename='reset.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body class="bg-light">
+    <div class="row bg-secondary text-white p-2 d-flex">
+        <a href="/detail?exercise={{exerciseEng}}" class="col-2 d-flex">
+            <svg xmlns="http://www.w3.org/2000/svg" width="80%" height="80%" fill="currentColor" class="pl-2 icon bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+            </svg>
+        </a>
+        <div class="col-8">
+            <h1 class="w-100 m-0 text-center">{{exerciseKor}} 진행 중</h1>
+        </div>
+        <div class="col-2"></div>
+    </div>
+
+    <div class="container"> 
+        <div class="row">
+            <img class="w-100 p-0" src="{{ url_for('video_feed') }}">
+        </div>
+    </div>
+
+    <form action="/result" class="w-100 detailForm">
+        <button type="submit" class="text-center d-flex" style="margin: 0 auto;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" fill="currentColor" class="bi bi-play-circle" viewBox="0 0 16 16">
+                <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                <path d="M5 6.5A1.5 1.5 0 0 1 6.5 5h3A1.5 1.5 0 0 1 11 6.5v3A1.5 1.5 0 0 1 9.5 11h-3A1.5 1.5 0 0 1 5 9.5v-3z"/>
+            </svg>
+        </button>
+        <h1 class="text-center d-block mt-1">stop</h1>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,42 @@
+@font-face {
+    font-family: 'NanumBarunpen';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_two@1.0/NanumBarunpen.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'NanumBarunpen';
+}
+
+html, body {
+    margin: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'NanumBarunpen';
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+    align-items: center;
+}
+
+a svg {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+form{
+    align-items: center;
+    justify-content: center;
+}
+
+button{
+    all: unset;
+    align-items: center;
+}
+
+.detailForm{
+    position: fixed; bottom: 10rem;
+}
