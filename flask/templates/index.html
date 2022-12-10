@@ -9,15 +9,18 @@
     <link href="{{ url_for('static', filename='style.css') }}" rel="stylesheet">
     <title>Document</title>
 </head>
-<body>
-
+<body class="bg-light">
+    <h1 class="text-center mt-3">원하는 운동을 선택하세요!</h1>
     <div>
         <ul class="p-0">
             {% for n in key %}
             <li class="card m-3">
                 <a href="/detail?exercise={{n}}"}>
-                    <img class="" src="{{ url_for('static', filename='img/{}.jpg'.format(n)) }}">
-                    {{exerciseList[n]}}
+                    <img class="rounded w-100" src="{{ url_for('static', filename='img/{}.jpg'.format(n)) }}">
+                    <div class="mt-2 mb-2 text-center">
+                        {{exerciseList[n]}}
+                    </div>
+                    
                 </a>
             </li>
             {% endfor %}
