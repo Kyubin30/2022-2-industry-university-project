@@ -24,8 +24,12 @@
     </div>
     
     <div class="row text-center">
-        <div class="mt-3 mb-3">
-            <iframe width="100%" src="https://www.youtube.com/embed/_l3ySVKYVJ8?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <div class="mb-3">
+            {% if exerciseEng == "pushup" %}
+                <iframe width="100%" src="https://www.youtube.com/embed/_l3ySVKYVJ8?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {% elif exerciseEng == "crunch" %}
+                <iframe width="100%" src="https://www.youtube.com/embed/Xyd_fa5zoEU?controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            {% endif %}
         </div>
         <span>
             모든 국민은 거주·이전의 자유를 가진다. 대통령은 제1항과 제2항의 처분 또는 명령을 한 때에는 지체없이 국회에 보고하여 그 승인을 얻어야 한다. 국무회의는 대통령·국무총리와 15인 이상 30인 이하의 국무위원으로 구성한다.
