@@ -61,7 +61,7 @@ def gen_frames():
     global turnOn
 
     while True:
-        if turnOn:
+        if not turnOn:
             break
         
         success, frame = camera.read()
@@ -95,9 +95,9 @@ def gen_frames():
 
             pre = curr
 
-            cv2.putText(img, text=actions[action[0]], org=(50,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
-            cv2.putText(img, text=("%.2f" % predic[action[0]]), org=(400,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
-            cv2.putText(img, text=("%d" % count), org=(600,50), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=2, color=(0, 0, 255), thickness=3)
+            cv2.putText(img, text=actions[action[0]], org=(25,25), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
+            cv2.putText(img, text=("%.2f" % predic[action[0]]), org=(25,75), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
+            cv2.putText(img, text=("%d" % count), org=(25,125), fontFace=cv2.FONT_HERSHEY_SIMPLEX, fontScale=1, color=(0, 0, 255), thickness=2)
 
         
         img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -112,14 +112,14 @@ def gen_frames():
 
 #초기 리스트 페이지
 @app.route("/")
-def homepage():
+def listPage():
     key = list(exerciseList.keys())
     return render_template("index.html", key = key, exerciseList = exerciseList) 
  
 
 #get을 이용하여 리스트 페이지의 운동 이름을 가져옴
 @app.route("/detail", methods=['GET']) 		
-def hello_request():
+def detail():
     data = request.args.get('exercise')
     #jsonify(data)
     return render_template("detailPage.html", exerciseEng = data, exerciseKor = exerciseList[data])
@@ -133,7 +133,7 @@ def video_feed():
 
 #video_feed show 라우터
 @app.route('/streaming', methods=['GET'])
-def index():
+def streaming():
     data = request.args.get('exercise')
     global now
     now = request.args.get('exercise')
@@ -143,11 +143,11 @@ def index():
 
 #결과 페이지
 @app.route("/result")
-def homepage():
+def result():
     global count, turnOn
     num = count
     turnOn = False
-    return render_template("result,html", num = num)
+    return render_template("result.html", num = num)
 
 if __name__ == '__main__':
     app.run(debug=True)
