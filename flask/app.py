@@ -41,6 +41,8 @@ def gen_frames():
     pre = ""
     curr = ""
 
+    count = 0
+
     while True:
         success, frame = camera.read()
 
@@ -103,14 +105,14 @@ def hello_request():
 #비디오 및 미디어 파이프 작동 라우터
 @app.route('/video_feed')
 def video_feed():
-    count = 0
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #video_feed show 라우터
-@app.route('/streaming')
+@app.route('/streaming', methods=['GET'])
 def index():
+    data = request.args.get('exercise')
     """Video streaming home page."""
-    return render_template('streaming.html')
+    return render_template('streaming.html',exerciseEng = data, exerciseKor = exerciseList[data])
 
 if __name__ == '__main__':
     app.run(debug=True)
