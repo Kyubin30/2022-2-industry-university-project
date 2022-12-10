@@ -8,7 +8,7 @@ from sklearn.neighbors import KNeighborsClassifier
 pushUp: 팔굽혀펴기-편 동작, 
 pushDown: 팔굽혀펴기-다운 동작
 '''
-actions = ['pushUp', 'pushDown']
+actions = ['pushUp', 'pushDown', 'crunchDown', 'crunchUp']
 
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)

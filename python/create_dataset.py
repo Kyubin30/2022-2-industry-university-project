@@ -7,8 +7,9 @@ import csv
 '''
 pushUp: 팔굽혀펴기-편 동작, 
 pushDown: 팔굽혀펴기-다운 동작
+
 '''
-actions = ['pushUp', 'pushDown']
+actions = ['pushUp', 'pushDown', 'crunchDown', 'crunchUp']
 
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)
@@ -19,7 +20,7 @@ mp_drawing = mp.solutions.drawing_utils
 pose = mp_pose.Pose(
     static_image_mode=True,
     model_complexity=1,
-    min_detection_confidence=0.8,
+    min_detection_confidence=0,
     min_tracking_confidence=0.5
 )
 
@@ -30,11 +31,14 @@ pose = mp_pose.Pose(
 #csv는 반복 전 열어 각 반복마다 학습한 값과 라벨을 각 row에 저장
 dataset = open("dataset.csv", "w", newline='')
 
+count = 0
+
 #actions의 크기만큼 반복
 for idx, action in enumerate(actions):
     #actions의 각 명칭별로 있는 폴더 안의 이미지 사용
     img_path = "python/data/" + action + '/'
     file_list = os.listdir(img_path)
+    print(img_path + '파일 개수: %d' % len(file_list))
     for img_file in file_list:
         #각 이미지 별로 포즈 학습
         img = cv2.imread(img_path + img_file, cv2.IMREAD_COLOR)
@@ -49,16 +53,17 @@ for idx, action in enumerate(actions):
                 )
 
         if result.pose_landmarks is not None:
-
-            cv2.imshow('img', img)
-            cv2.waitKey(500)
-
             #랜드마크가 정상 인식 되었을 경우 csv파일에 저장
             try:
                 pose_row = list(np.array([[landmark.x, landmark.y, landmark.z, landmark.visibility] for landmark in result.pose_landmarks.landmark]).flatten())
                 pose_row.append(idx)
-                print(pose_row)
                 csv_writer = csv.writer(dataset, delimiter=',', quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 csv_writer.writerow(pose_row)
+                count += 1
             except:
+                print("no")
                 pass
+        else:
+            print(img_path + img_file)
+
+print(count)
