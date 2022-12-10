@@ -8,9 +8,23 @@ from sklearn.neighbors import KNeighborsClassifier
 
 app = Flask(__name__)
 
-actions = ['pushUp', 'pushDown']
+'''
+pushUp: 팔굽혀펴기-편 동작, 
+pushDown: 팔굽혀펴기-다운 동작
+crunchDown: 크런치 누운 동작
+crunchUp: 크런치 올라온 동작
+'''
+actions = ['pushUp', 'pushDown', 'crunchDown', 'crunchUp']
+
+global count, pre, curr, turnOn
+global now
 
 count = 0
+
+turnOn = False
+
+pre = ""
+curr = ""
 
 color_pose1 = (245,117,66)
 color_pose2 = (245,66,230)
@@ -38,12 +52,18 @@ exerciseList = {
 #프레임 생성 
 def gen_frames():
 
-    pre = ""
-    curr = ""
+    global pre
+    global curr
 
+    global count
     count = 0
 
+    global turnOn
+
     while True:
+        if turnOn:
+            break
+        
         success, frame = camera.read()
 
         img = cv2.flip(frame, 1)
@@ -68,7 +88,9 @@ def gen_frames():
 
             curr = actions[action[0]]
 
-            if pre == "pushUp" and curr == "pushDown":
+            if now == "pushup" and pre == "pushUp" and curr == "pushDown":
+                count += 1
+            elif now == "crunch" and pre == "crunchDown" and curr == "crunchUp":
                 count += 1
 
             pre = curr
@@ -105,14 +127,27 @@ def hello_request():
 #비디오 및 미디어 파이프 작동 라우터
 @app.route('/video_feed')
 def video_feed():
+    global turnOn
+    turnOn = True
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #video_feed show 라우터
 @app.route('/streaming', methods=['GET'])
 def index():
     data = request.args.get('exercise')
+    global now
+    now = request.args.get('exercise')
+
     """Video streaming home page."""
     return render_template('streaming.html',exerciseEng = data, exerciseKor = exerciseList[data])
+
+#결과 페이지
+@app.route("/result")
+def homepage():
+    global count, turnOn
+    num = count
+    turnOn = False
+    return render_template("result,html", num = num)
 
 if __name__ == '__main__':
     app.run(debug=True)
